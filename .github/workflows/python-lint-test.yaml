@@ -11,16 +11,16 @@ on:
         type: string
 
 jobs:
-  lint-test:
-    runs-on: ${{ inputs.os }}
-
+  lint:
+    runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
       - uses: actions/setup-python@v4
         with:
-          python-version: ${{ inputs.python-version }}
+          python-version: "3.x"
 
       - name: Install dependencies
         run: pip install --editable .[dev,tests]
@@ -43,5 +43,19 @@ jobs:
         run: "python -m pylint src/ \
         --msg-template='::error file={path},line={line},col={column}::[pylint] {category} {msg_id}: {msg}'"
 
-      - name: Run tests and generate coverage report
+  test:
+    runs-on: ${{ inputs.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ inputs.python-version }}
+
+      - name: Install dependencies
+        run: pip install --editable .[dev,tests]
+
+      - name: Run tests
         run: python -m pytest
