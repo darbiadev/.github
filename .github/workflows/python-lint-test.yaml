@@ -25,6 +25,12 @@ jobs:
 
       - name: Install dependencies
         run: pip install --editable .[dev,tests]
+        
+      - name: Run isort check
+        run: isort --check-only src/
+
+      - name: Run black check
+        run: black --check src/
 
       # Run pylint and have it format the linting errors in the format of
       # the GitHub Workflow command to register error annotations. This
