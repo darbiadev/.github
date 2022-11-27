@@ -1,0 +1,46 @@
+name: Rust Test
+
+on:
+  workflow_call:
+    inputs:
+      os:
+        required: true
+        type: string
+      target:
+        required: true
+        type: string
+
+jobs:
+  test:    
+    runs-on: ${{ inputs.os }}
+
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          concurrent_skipping: "same_content_newer"
+          skip_after_successful_duplicate: "true"
+          paths: '[".github/workflows/ci.yaml", "src/**", "Cargo.lock", "Cargo.toml"]'          
+
+      - uses: actions/checkout@v3
+        if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
+
+      - name: Install toolchain
+        if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          target: ${{ inputs.target }}
+
+      - uses: Swatinem/rust-cache@v2
+        if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
+        with:
+          key: ${{ matrix.triple.target }}
+
+      - name: Run tests
+        if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
+        run: cargo test --no-fail-fast
+        env:
+          RUST_BACKTRACE: full
