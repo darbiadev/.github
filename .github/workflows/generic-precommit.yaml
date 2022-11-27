@@ -41,8 +41,7 @@ jobs:
       # Install our dependencies if we did not restore a dependency cache
       - name: Install dependencies using pip
         if: steps.python_cache.outputs.cache-hit != 'true'
-        run: |
-          pip install -U pip wheel setuptools pre-commit
+        run: pip install --upgrade pip wheel setuptools pre-commit
 
       # This step caches our pre-commit environment. To make sure we
       # do create a new environment when our pre-commit setup changes,
