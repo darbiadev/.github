@@ -37,7 +37,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
         with:
-          key: ${{ matrix.triple.target }}
+          key: ${{ inputs.target }}
 
       - name: Run tests
         if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
