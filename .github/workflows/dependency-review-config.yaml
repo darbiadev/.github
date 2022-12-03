@@ -1,0 +1,6 @@
+# Possible values: Any `spdx_id` value(s) from https://docs.github.com/en/rest/licenses
+allow-licenses:
+  - Apache-2.0
+  - MIT
+  - PSF-2.0
+ 
