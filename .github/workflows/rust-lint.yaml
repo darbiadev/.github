@@ -12,7 +12,7 @@ jobs:
         with:
           concurrent_skipping: "same_content_newer"
           skip_after_successful_duplicate: "true"
-          paths: '["**/src/**", "Cargo.lock", "Cargo.toml"]'
+          paths: '[".github/workflows/*.yaml", "**.rs", "Cargo.toml", "Cargo.lock"]'
 
       - uses: actions/checkout@v3
         if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
