@@ -8,17 +8,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Dump GitHub context
-        id: github_context_step
+        continue-on-error: true        
         run: echo '${{ toJSON(github) }}'
       - name: Dump job context
+        continue-on-error: true
         run: echo '${{ toJSON(job) }}'
       - name: Dump steps context
+        continue-on-error: true
         run: echo '${{ toJSON(steps) }}'
       - name: Dump runner context
+        continue-on-error: true
         run: echo '${{ toJSON(runner) }}'
       - name: Dump strategy context
+        continue-on-error: true
         run: echo '${{ toJSON(strategy) }}'
       - name: Dump matrix context
+        continue-on-error: true
         run: echo '${{ toJSON(matrix) }}'
 
   publish:
