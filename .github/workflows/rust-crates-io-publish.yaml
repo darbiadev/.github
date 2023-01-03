@@ -2,6 +2,10 @@ name: Publish to crates.io
 
 on:
   workflow_call:
+    secrets:
+      CARGO_REGISTRY_TOKEN:
+        description: 'Bearer token for crates.io'
+        required: true
 
 jobs:
   publish:
