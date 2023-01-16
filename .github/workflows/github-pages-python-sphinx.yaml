@@ -24,12 +24,12 @@ jobs:
         run: pip install --editable .[docs,tests]
 
       - name: Build docs
-        run: cd docs; make html
+        run: cd docs; make dirhtml
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: ./docs/build/html
+          path: ./docs/build/dirhtml
 
   deploy:
     environment:
