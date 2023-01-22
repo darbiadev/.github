@@ -2,6 +2,10 @@ name: Publish Python 🐍 distributions 📦 to PyPI
 
 on:
   workflow_call:
+    secrets:
+      PYPI_API_TOKEN:
+        description: 'API token for pypi.org'
+        required: true
 
 jobs:
   build-n-publish:
