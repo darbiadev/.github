@@ -1,4 +1,4 @@
-name: GitHub Pages - Python Sphinx
+name: "GitHub Pages - Python Sphinx"
 
 on:
   workflow_call:
@@ -14,34 +14,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: "Checkout repository"
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
 
-      - uses: actions/setup-python@v4
+      - name: "Setup Python"
+        uses: actions/setup-python@7b9ef6fc5a7a74dfb7c0924eb42615d7af1e4de5
         with:
-          python-version: '3.x'
+          python-version: "3.x"
           cache: "pip"
           cache-dependency-path: "pyproject.toml"
 
-      - name: Install dependencies
+      - name: "Install dependencies"
         run: pip install --editable .[docs]
 
-      - name: Build docs
+      - name: "Build docs"
         run: cd docs; make dirhtml
 
-      - name: Upload artifact
+      - name: "Upload artifact"
         uses: actions/upload-pages-artifact@v1
         with:
           path: ./docs/build/dirhtml
 
   deploy:
     environment:
-      name: github-pages
+      name: "github-pages"
       url: ${{ steps.deployment.outputs.page_url }}
 
     runs-on: ubuntu-latest
 
     needs: build
     steps:
-      - name: Deploy to GitHub Pages
+      - name: "Deploy to GitHub Pages"
         id: deployment
         uses: actions/deploy-pages@v1

@@ -1,32 +1,14 @@
-name: Rust Lint
+name: "Rust Lint"
 
 on:
   workflow_call:
 
 jobs:
-  rustfmt:    
+  rustfmt:
     runs-on: ubuntu-latest
     steps:
-      - id: skip_check
-        uses: fkirc/skip-duplicate-actions@v5
-        with:
-          concurrent_skipping: "same_content_newer"
-          skip_after_successful_duplicate: "true"
-          paths: '[".github/workflows/*.yaml", "**.rs", "Cargo.toml", "Cargo.lock"]'
+      - name: "Checkout repository"
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
 
-      - uses: actions/checkout@v3
-        if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
-
-      - uses: actions-rs/toolchain@v1
-        if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-          components: rustfmt
-
-      - uses: Swatinem/rust-cache@v2
-        if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
-
-      - run: cargo fmt --all -- --check
-        if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
+      - name: "Check formatting"
+        run: cargo fmt --all -- --check

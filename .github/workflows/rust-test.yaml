@@ -1,4 +1,4 @@
-name: Rust Test
+name: "Rust Test"
 
 on:
   workflow_call:
@@ -11,36 +11,18 @@ on:
         type: string
 
 jobs:
-  test:    
+  test:
     runs-on: ${{ inputs.os }}
-
     steps:
-      - id: skip_check
-        uses: fkirc/skip-duplicate-actions@v5
-        with:
-          concurrent_skipping: "same_content_newer"
-          skip_after_successful_duplicate: "true"
-          paths: '[".github/workflows/*.yaml", "**.rs", "Cargo.toml", "Cargo.lock"]'
+      - name: "Checkout repository"
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
 
-      - uses: actions/checkout@v3
-        if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
-
-      - name: Install toolchain
-        if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-          target: ${{ inputs.target }}
-
-      - uses: Swatinem/rust-cache@v2
-        if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
+      - name: "Cache dependencies"
+        uses: Swatinem/rust-cache@664ce0090f15897beb496f9faf2f88e6908c80c4
         with:
           key: ${{ inputs.target }}
 
-      - name: Run tests
-        if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
+      - name: "Run tests"
         run: cargo test --no-fail-fast
         env:
           RUST_BACKTRACE: full

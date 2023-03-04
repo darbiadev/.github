@@ -1,10 +1,10 @@
-name: Pre-Commit
+name: "pre-commit"
 
 on:
   workflow_call:
 
 jobs:
-  precommit:
+  pre-commit:
     runs-on: ubuntu-latest
     env:
       PIP_NO_CACHE_DIR: false
@@ -13,14 +13,15 @@ jobs:
       PRE_COMMIT_HOME: ${{ github.workspace }}/.cache/pre-commit-cache
 
     steps:
-      - name: Add custom PYTHONUSERBASE to PATH
+      - name: "Add custom PYTHONUSERBASE to PATH"
         run: echo '${{ env.PYTHONUSERBASE }}/bin/' >> $GITHUB_PATH
 
-      - uses: actions/checkout@v3
+      - name: "Checkout repository"
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
 
-      - name: Setup Python
+      - name: "Setup Python"
         id: python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@7b9ef6fc5a7a74dfb7c0924eb42615d7af1e4de5
         with:
           python-version: '3.x'
 
@@ -30,8 +31,8 @@ jobs:
       # changed, we create a cache key that is a composite of those states.
       #
       # Only when the context is exactly the same, we will restore the cache.
-      - name: Python dependency caching
-        uses: actions/cache@v3
+      - name: "Python dependency caching"
+        uses: actions/cache@e0d62270e20d6eeecf2fd6397a1b8871b6269e38
         id: python_cache
         with:
           path: ${{ env.PYTHONUSERBASE }}
@@ -39,15 +40,15 @@ jobs:
           ${{ steps.python.outputs.python-version }}"          
 
       # Install our dependencies if we did not restore a dependency cache
-      - name: Install dependencies using pip
+      - name: "Install dependencies using pip"
         if: steps.python_cache.outputs.cache-hit != 'true'
         run: pip install --upgrade pip wheel setuptools pre-commit
 
       # This step caches our pre-commit environment. To make sure we
       # do create a new environment when our pre-commit setup changes,
       # we create a cache key based on relevant factors.
-      - name: Pre-commit environment caching
-        uses: actions/cache@v3
+      - name: "Pre-commit environment caching"
+        uses: actions/cache@e0d62270e20d6eeecf2fd6397a1b8871b6269e38
         with:
           path: ${{ env.PRE_COMMIT_HOME }}
           key: "precommit-v0-${{ runner.os }}-${{ env.PRE_COMMIT_HOME }}-\
@@ -56,5 +57,5 @@ jobs:
 
       # As pre-commit does not support user installs, we set
       # PIP_USER=0 to not do a user install.
-      - name: Run pre-commit hooks
+      - name: "Run pre-commit hooks"
         run: export PIP_USER=0; pre-commit run --all-files

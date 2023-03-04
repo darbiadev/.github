@@ -1,4 +1,4 @@
-name: Pre-Commit autoupdate
+name: "pre-commit autoupdate"
 
 on:
   workflow_call:
@@ -7,15 +7,21 @@ jobs:
   pre-commit-autoupdate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: "Checkout repository"
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
 
-      - uses: actions/setup-python@v4
+      - name: "Setup Python"
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
 
-      - run: |
+      - name: "Run pre-commit autoupdate"
+        run: |
           pip install pre-commit
           pre-commit autoupdate
 
-      - uses: peter-evans/create-pull-request@v4
+      - name: "Create PR to update checks"
+        uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: update/pre-commit-hooks
