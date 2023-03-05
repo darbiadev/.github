@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
 
       - name: "Cache dependencies"
-        uses: Swatinem/rust-cache@664ce0090f15897beb496f9faf2f88e6908c80c4
+        uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f
 
       - name: "Run Clippy"
         run: cargo clippy -- -D clippy::all -D clippy::pedantic -D clippy::cargo
