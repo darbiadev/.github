@@ -1,4 +1,4 @@
-name: "GitHub Pages - Python Sphinx"
+name: "GitHub Pages - Python Sphinx - with PDF"
 
 on:
   workflow_call:
@@ -25,11 +25,19 @@ jobs:
           cache-dependency-path: "pyproject.toml"
 
       - name: "Install dependencies"
-        run: pip install --editable .[docs]
+        run: pip install .[docs]
+
+      - name: "Install latexmk"
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y latexmk # texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
 
       - name: "Build docs"
         run: |
           cd docs 
+          make latexpdf
+          REPO_NAME=${{ github.event.repository.name }}
+          cp build/latex/$REPO_NAME.pdf source/_static/$REPO_NAME.pdf
           make dirhtml
 
       - name: "Upload artifact"
