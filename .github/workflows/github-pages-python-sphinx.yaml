@@ -28,7 +28,12 @@ jobs:
         run: pip install --editable .[docs]
 
       - name: "Build docs"
-        run: cd docs; make dirhtml
+        run: |
+          cd docs 
+          make latexpdf
+          REPO_NAME=${{ github.event.repository.name }}
+          cp build/latex/$REPO_NAME.pdf source/_static/$REPO_NAME.pdf
+          make html
 
       - name: "Upload artifact"
         uses: actions/upload-pages-artifact@v1
