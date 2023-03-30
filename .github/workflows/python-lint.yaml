@@ -30,14 +30,5 @@ jobs:
       - name: "Check formatting"
         run: black --check src/
 
-      # Run pylint and have it format the linting errors in the format of
-      # the GitHub Workflow command to register error annotations. This
-      # means that our pylint output is automatically added as an error
-      # annotation to both the run result and in the "Files" tab of a
-      # pull request.
-      #
-      # Format used:
-      # ::error file={filename},line={line},col={col}::{message}
-      - name: "Run pylint"
-        run: "python -m pylint src/ \
-        --msg-template='::error file={path},line={line},col={column}::[pylint] {category} {msg_id}: {msg}'"
+      - name: "Run ruff"
+        run: "python -m ruff check --format=github src/
