@@ -7,9 +7,6 @@ on:
         description: 'API token for pypi.org'
         required: true
 
-permissions:
-  id-token: write
-
 jobs:
   build-publish:
     name: "Build and publish Python 🐍 distributions 📦 to PyPI"
