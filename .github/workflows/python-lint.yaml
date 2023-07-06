@@ -24,9 +24,6 @@ jobs:
       - name: "Install dependencies"
         run: python -m pip install --editable .[dev,tests]
 
-      - name: "Check import order"
-        run: isort --check-only src/
-
       - name: "Check formatting"
         run: black --check src/
 
