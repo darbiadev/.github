@@ -56,7 +56,7 @@ jobs:
 
       - name: "Build and push Docker image"
         id: build-and-push
-        uses: docker/build-push-action@a799b4decf46d51b39dd396f4df5a4343afd30c4
+        uses: docker/build-push-action@f05b754b571695bf93164b9b54cb8e2e96e22706
         with:
           context: .
           push: ${{ inputs.push }}
