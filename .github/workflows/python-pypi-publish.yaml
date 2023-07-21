@@ -2,6 +2,12 @@ name: "Publish Python 🐍 distributions 📦 to PyPI"
 
 on:
   workflow_call:
+    inputs:
+      upload:
+        description: "Whether to upload the built distributions as artifacts"
+        default: false
+        required: false
+        type: boolean
 
 jobs:
   build-publish:
@@ -34,7 +40,8 @@ jobs:
           build
           --outdir dist/
 
-      - name: "Upload packages"
+      - name: "Upload the built distributions as artifacts"
+        if: ${{ inputs.upload }}
         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
         with:
           name: packages
