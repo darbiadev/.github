@@ -17,11 +17,11 @@ jobs:
         run: echo '${{ env.PYTHONUSERBASE }}/bin/' >> $GITHUB_PATH
 
       - name: "Checkout repository"
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
 
       - name: "Setup Python"
         id: python
-        uses: actions/setup-python@7b9ef6fc5a7a74dfb7c0924eb42615d7af1e4de5
+        uses: actions/setup-python@61a6322f88396a6271a6ee3565807d608ecaddd1 # v4.7.0
         with:
           python-version: '3.x'
 
@@ -32,7 +32,7 @@ jobs:
       #
       # Only when the context is exactly the same, we will restore the cache.
       - name: "Python dependency caching"
-        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
         id: python_cache
         with:
           path: ${{ env.PYTHONUSERBASE }}
@@ -48,7 +48,7 @@ jobs:
       # do create a new environment when our pre-commit setup changes,
       # we create a cache key based on relevant factors.
       - name: "Pre-commit environment caching"
-        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
         with:
           path: ${{ env.PRE_COMMIT_HOME }}
           key: "precommit-v0-${{ runner.os }}-${{ env.PRE_COMMIT_HOME }}-\

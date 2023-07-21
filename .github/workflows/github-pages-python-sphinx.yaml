@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: "Checkout repository"
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
 
       - name: "Setup Python"
-        uses: actions/setup-python@7b9ef6fc5a7a74dfb7c0924eb42615d7af1e4de5
+        uses: actions/setup-python@61a6322f88396a6271a6ee3565807d608ecaddd1 # v4.7.0
         with:
           python-version: "3.x"
           cache: "pip"
@@ -33,7 +33,7 @@ jobs:
           make dirhtml
 
       - name: "Upload artifact"
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@a753861a5debcf57bf8b404356158c8e1e33150c # v2.0.0
         with:
           path: ./docs/build/dirhtml
 
@@ -48,4 +48,4 @@ jobs:
     steps:
       - name: "Deploy to GitHub Pages"
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@12ab2b16cf43a7a061fe99da74b6f8f11fb77f5b # v2.0.3
