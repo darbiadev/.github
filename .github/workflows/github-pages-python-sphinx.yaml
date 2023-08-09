@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       deploy:
-        description: "Whether to deploy the built documentation"
+        description: "Whether to deploy the built site"
         default: ${{ github.ref == 'refs/heads/main' }}
         required: false
         type: boolean
