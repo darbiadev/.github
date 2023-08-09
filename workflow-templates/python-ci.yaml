@@ -9,7 +9,7 @@ on:
 
 jobs:
   lint:
-    uses: darbiadev/.github/.github/workflows/python-lint.yaml@4aa7c64159244d12bf9a39d42da89e80004d4af6 # v1.0.1
+    uses: darbiadev/.github/.github/workflows/python-lint.yaml@f41fb3a79eebcf5a55dd1b85b9c86965d9128db9 # v1.1.0
 
   test:
     needs: lint
@@ -18,7 +18,7 @@ jobs:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
         python-version: [ "3.11" ]
 
-    uses: darbiadev/.github/.github/workflows/python-test.yaml@4aa7c64159244d12bf9a39d42da89e80004d4af6 # v1.0.1
+    uses: darbiadev/.github/.github/workflows/python-test.yaml@f41fb3a79eebcf5a55dd1b85b9c86965d9128db9 # v1.1.0
     with:
       os: ${{ matrix.os }}
       python-version: ${{ matrix.python-version }}
@@ -30,4 +30,4 @@ jobs:
       pages: write
       id-token: write
 
-    uses: darbiadev/.github/.github/workflows/github-pages-python-sphinx.yaml@4aa7c64159244d12bf9a39d42da89e80004d4af6 # v1.0.1
+    uses: darbiadev/.github/.github/workflows/github-pages-python-sphinx.yaml@f41fb3a79eebcf5a55dd1b85b9c86965d9128db9 # v1.1.0
