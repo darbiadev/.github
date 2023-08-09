@@ -1,0 +1,7 @@
+{
+  "name": "Python CI",
+  "description": "Lint, test, and publish docs",
+  "categories": [
+    "Python"
+  ]
+}
