@@ -8,7 +8,7 @@ on:
         default: ${{ github.ref == 'refs/heads/main' }}
         required: false
         type: boolean
-`
+
 jobs:
   build:
     runs-on: ubuntu-latest
