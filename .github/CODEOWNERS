@@ -1,0 +1,6 @@
+# Require organizational administrator approval to change the organizational profile
+/profile/ @darbiadev/administrators
+
+# Require DevOps review on CI
+/.github/ @darbiadev/devops
+/workflow-templates/ @darbiadev/devops
