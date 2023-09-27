@@ -25,7 +25,7 @@ jobs:
           cache-dependency-path: "pyproject.toml"
 
       - name: "Install dependencies"
-        run: pip install --editable .[docs]
+        run: pip install .[docs]
 
       - name: "Build docs"
         run: |

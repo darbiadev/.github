@@ -22,7 +22,7 @@ jobs:
         run: python -m pip install --upgrade pip wheel setuptools build
 
       - name: "Install dependencies"
-        run: python -m pip install --editable .[dev,tests]
+        run: python -m pip install .[dev,tests]
 
       - name: "Check formatting"
         run: black --check src/
