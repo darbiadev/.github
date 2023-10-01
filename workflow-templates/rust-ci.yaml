@@ -9,11 +9,11 @@ on:
 
 jobs:
   lint:
-    uses: darbiadev/.github/.github/workflows/rust-lint.yaml@d6220095b55027e259f0a7f4d36afaa2a4bd752f # v1.1.4
+    uses: darbiadev/.github/.github/workflows/rust-lint.yaml@068870f051676db9e2651013f7c7196ffdaeadaa # v2.0.0
 
   clippy:
     needs: lint
-    uses: darbiadev/.github/.github/workflows/rust-clippy.yaml@d6220095b55027e259f0a7f4d36afaa2a4bd752f # v1.1.4
+    uses: darbiadev/.github/.github/workflows/rust-clippy.yaml@068870f051676db9e2651013f7c7196ffdaeadaa # v2.0.0
 
   test:
     needs: clippy
@@ -33,7 +33,7 @@ jobs:
             target: "x86_64-pc-windows-msvc",
           }
 
-    uses: darbiadev/.github/.github/workflows/rust-test.yaml@d6220095b55027e259f0a7f4d36afaa2a4bd752f # v1.1.4
+    uses: darbiadev/.github/.github/workflows/rust-test.yaml@068870f051676db9e2651013f7c7196ffdaeadaa # v2.0.0
     with:
       os: ${{ matrix.triple.os }}
       target: ${{ matrix.triple.target }}
@@ -45,4 +45,4 @@ jobs:
       pages: write
       id-token: write
 
-    uses: darbiadev/.github/.github/workflows/github-pages-rust-doc.yaml@d6220095b55027e259f0a7f4d36afaa2a4bd752f # v1.1.4
+    uses: darbiadev/.github/.github/workflows/github-pages-rust-doc.yaml@068870f051676db9e2651013f7c7196ffdaeadaa # v2.0.0
