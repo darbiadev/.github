@@ -8,6 +8,11 @@ on:
         default: ${{ github.ref == 'refs/heads/main' || startswith(github.event.ref, 'refs/tags/v') }}
         required: false
         type: boolean
+      file-name:
+        description: "The name of the Container file"
+        default: "Containerfile"
+        required: false
+        type: string
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -55,7 +60,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
-          file: Containerfile
+          file: ${{ inputs.file-name }}
           push: ${{ inputs.push }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
