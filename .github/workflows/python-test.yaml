@@ -4,16 +4,23 @@ on:
   workflow_call:
     inputs:
       os:
+        description: "The operating system to use"
         required: true
         type: string
       python-version:
         description: "The Python version to use"
         required: true
         type: string
+    secrets:
+      codecov-token:
+        description: "The Codecov token to use"
+        required: false       
 
 jobs:
   test:
     runs-on: ${{ inputs.os }}
+    env:
+      HAVE_CODECOV_TOKEN: ${{ secrets.codecov-token != '' }}
 
     steps:
       - name: "Checkout repository"
@@ -31,7 +38,13 @@ jobs:
         run: python -m pip install --upgrade pip wheel setuptools build
 
       - name: "Install dependencies"
-        run: python -m pip install .[tests]
+        run: python -m pip install .[tests] coverage pytest
 
       - name: "Run tests"
-        run: python -m pytest
+        run: python -m coverage run -m pytest
+
+      - name: "Upload coverage reports to Codecov"
+        if: ${{ env.HAVE_CODECOV_TOKEN }}
+        uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
+        env:
+          CODECOV_TOKEN: ${{ secrets.codecov-token }}
