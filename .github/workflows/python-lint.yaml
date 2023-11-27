@@ -22,14 +22,9 @@ jobs:
         with:
           python-version: ${{ inputs.python-version }}
           allow-prereleases: true
-          cache: "pip"
-          cache-dependency-path: "pyproject.toml"
 
-      - name: "Update packaging tools"
-        run: python -m pip install --upgrade pip wheel setuptools build
-
-      - name: "Install dependencies"
-        run: python -m pip install .[dev,tests]
+      - name: "Install Ruff"
+        run: python -m pip install ruff
 
       - name: "Check formatting"
         run: python -m ruff format --check src/
