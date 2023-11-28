@@ -1,4 +1,4 @@
-name: "GitHub Pages - Hugo"
+name: "Build Rust doc site"
 
 on:
   workflow_call:
@@ -14,22 +14,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: "Checkout repository"
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-        with:
-          submodules: 'recursive'
 
-      - name: Install Hugo
-        uses: peaceiris/actions-hugo@16361eb4acea8698b220b76c0d4e84e1fd22c61d # v2.6.0
-        with:
-          hugo-version: 'latest'
+      - name: "Build docs with cargo"
+        run: cargo doc --no-deps --document-private-items
 
-      - run: hugo --minify --environment production
+      # `.lock` is set to to rw-------, which causes actions/deploy-pages to fail
+      # because it's expecting all files to be at least rw-r--r--
+      - name: "Remove '.lock' file"
+        run: rm ./target/doc/.lock
 
-      - name: Upload artifact
+      - name: "Upload artifact"
         uses: actions/upload-pages-artifact@a753861a5debcf57bf8b404356158c8e1e33150c # v2.0.0
         with:
-          path: ./public
+          path: ./target/doc
 
   deploy:
     if: ${{ inputs.deploy }}
