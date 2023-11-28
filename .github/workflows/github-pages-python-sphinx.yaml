@@ -1,8 +1,13 @@
-name: "Build Hugo site"
+name: "GitHub Pages - Python Sphinx"
 
 on:
   workflow_call:
     inputs:
+      python-version:
+        description: "The Python version to use"
+        default: "3.x"
+        required: false
+        type: string
       deploy:
         description: "Whether to deploy the built site"
         default: ${{ github.ref == 'refs/heads/main' }}
@@ -14,22 +19,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: "Checkout repository"
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: "Setup Python"
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236 # v4.7.1
         with:
-          submodules: 'recursive'
+          python-version: ${{ inputs.python-version }}
+          allow-prereleases: true
+          cache: "pip"
+          cache-dependency-path: "pyproject.toml"
 
-      - name: Install Hugo
-        uses: peaceiris/actions-hugo@16361eb4acea8698b220b76c0d4e84e1fd22c61d # v2.6.0
-        with:
-          hugo-version: 'latest'
+      - name: "Install dependencies"
+        run: pip install .[docs]
 
-      - run: hugo --minify --environment production
+      - name: "Build docs"
+        run: |
+          cd docs 
+          make dirhtml
 
-      - name: Upload artifact
+      - name: "Upload artifact"
         uses: actions/upload-pages-artifact@a753861a5debcf57bf8b404356158c8e1e33150c # v2.0.0
         with:
-          path: ./public
+          path: ./docs/build/dirhtml
 
   deploy:
     if: ${{ inputs.deploy }}
