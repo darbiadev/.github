@@ -15,7 +15,7 @@ on:
       codecov-token:
         description: "The Codecov token to use"
         required: false
-      deepsource-token:
+      deepsource-dsn:
         description: "The DeepSource token to use"
         required: false
 
@@ -24,7 +24,7 @@ jobs:
     runs-on: ${{ inputs.os }}
     env:
       HAVE_CODECOV_TOKEN: ${{ secrets.codecov-token != '' }}
-      HAVE_DEEPSOURCE_TOKEN: ${{ secrets.deepsource-token != '' }}
+      HAVE_DEEPSOURCE_DSN: ${{ secrets.deepsource-dsn != '' }}
 
     steps:
       - name: "Checkout repository"
@@ -50,15 +50,16 @@ jobs:
         run: python -m coverage run -m pytest
 
       - name: "Upload coverage reports to Codecov"
-        if: ${{ env.HAVE_CODECOV_TOKEN }}
+        if: ${{ env.HAVE_CODECOV_TOKEN != 'false' }}
         uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
         env:
           CODECOV_TOKEN: ${{ secrets.codecov-token }}
 
       - name: "Upload coverage reports to DeepSource"
-        if: ${{ env.HAVE_DEEPSOURCE_TOKEN }}
+        if: ${{ env.HAVE_DEEPSOURCE_DSN != 'false' }}
         run: |
           coverage xml
           curl https://deepsource.io/cli | sh
-          export DEEPSOURCE_DSN=${{ secrets.deepsource-token }}
           ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
+        env:
+          DEEPSOURCE_DSN: ${{ secrets.deepsource-dsn }}
