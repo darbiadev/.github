@@ -14,13 +14,17 @@ on:
     secrets:
       codecov-token:
         description: "The Codecov token to use"
-        required: false       
+        required: false
+      deepsource-token:
+        description: "The DeepSource token to use"
+        required: false
 
 jobs:
   test:
     runs-on: ${{ inputs.os }}
     env:
       HAVE_CODECOV_TOKEN: ${{ secrets.codecov-token != '' }}
+      HAVE_DEEPSOURCE_TOKEN: ${{ secrets.deepsource-token != '' }}
 
     steps:
       - name: "Checkout repository"
@@ -48,3 +52,11 @@ jobs:
         uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
         env:
           CODECOV_TOKEN: ${{ secrets.codecov-token }}
+
+      - name: "Upload coverage reports to DeepSource"
+        if: ${{ env.HAVE_DEEPSOURCE_TOKEN }}
+        run: |
+          coverage xml
+          curl https://deepsource.io/cli | sh
+          export DEEPSOURCE_DSN=${{ secrets.deepsource-token }}
+          ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
