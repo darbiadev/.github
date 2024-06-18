@@ -14,5 +14,5 @@ allow-licenses:
   - Python-2.0
   - Python-2.0.1
   - Apache-2.0 AND MIT
-  - GPL-3.0-or-later AND LGPL-2.1-only # For astroid, a dependency of sphinx autoapi # make sure there's no issues with this
+  - LGPL-2.0-only AND LGPL-2.1-or-later # astroid
   - BSD-2-Clause AND MIT
