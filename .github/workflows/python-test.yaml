@@ -33,7 +33,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: "Setup Python"
-        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
         with:
           python-version: "${{ inputs.python-version }}"
           allow-prereleases: true
@@ -51,7 +51,7 @@ jobs:
 
       - name: "Upload coverage reports to Codecov"
         if: ${{ env.HAVE_CODECOV_TOKEN != 'false' }}
-        uses: codecov/codecov-action@1e68e06f1dbfde0e4cefc87efeba9e4643565303 # v5.1.2
+        uses: codecov/codecov-action@0565863a31f2c772f9f0395002a31e3f06189574 # v5.4.0
         env:
           CODECOV_TOKEN: ${{ secrets.codecov-token }}
 
